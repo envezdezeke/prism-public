@@ -1,0 +1,110 @@
+# Read issue rules (Phase 3, plan 03-03). Generic words only: no company, person, EIN, address or
+# amount from any sample belongs here (the guard test scans this file).
+#
+# The `requirements` list is the LABEL MAPPING of the prose `required_to_exit` entries in
+# rules/stages.json (Intake, Credit and Product). The prose is not parsed at runtime: the bank wrote
+# it for people, so the mapping to ISSUE_RE targets lives here, one entry per requirement.
+#
+#   Intake   "loan application (signed)"                -> application
+#            "government photo ID for each guarantor"   -> guarantor_id (one per guarantor)
+#            "certificate of formation"                 -> certificate_of_formation
+#            "IRS EIN letter"                           -> ein_letter
+#   Credit   "bank statements for the 6 most recent full months (all pages)"
+#                                                       -> bank_statement_<YYYY-MM> per month
+#            "financial statements (P&L + balance sheet)" -> financial_statements
+#            "most recent business tax return OR Form 7004 if < 2 years old" -> tax_return
+#   Product  "equipment loans: vendor quote present"    -> equipment_quote
+#
+# kind says which rule evaluates the entry:
+#   single            satisfied by any document of doc_class
+#   signed_single     like single, and a parsed application whose `signed` is exactly False does not count
+#   guarantors        one doc of doc_class per guarantor on the application (at least one)
+#   statements        one bank_statement per calendar month in the window (label gets the month)
+#   financials        a P&L and a balance sheet across the financial_statements docs
+#   tax_or_extension  a tax return, or a Form 7004 only when the business is under young_business_years
+#   product_quote     doc_class required only when the application's product equals `when_product`
+requirements:
+  - {label: application, kind: signed_single, doc_class: application, stage: Intake}
+  - {label: guarantor_id, kind: guarantors, doc_class: guarantor_id, stage: Intake}
+  - {label: certificate_of_formation, kind: single, doc_class: certificate_of_formation, stage: Intake}
+  - {label: ein_letter, kind: single, doc_class: ein_letter, stage: Intake}
+  - {label: bank_statement, kind: statements, doc_class: bank_statement, stage: Credit}
+  - {label: financial_statements, kind: financials, doc_class: financial_statements, stage: Credit}
+  - {label: tax_return, kind: tax_or_extension, doc_class: tax_return, extension_class: form_7004, stage: Credit}
+  - {label: equipment_quote, kind: product_quote, doc_class: equipment_quote, when_product: "Equipment Loan", stage: Product}
+
+statement_window_months: 6     # the six full calendar months before the month of the reference date
+young_business_years: 2        # a Form 7004 stands in for a tax return only below this age
+anchor_fallback: last_arrival  # reference date when the application shows no date: the last arrival's date
+
+# Bank statements (statements.py). Label synonyms are matched whole-line or "label: value" or
+# "label   value" (two or more spaces), longest synonym first; see prism/read/labels.py.
+statement:
+  labels:
+    holder: ["Account holder", "Account name", "Accountholder", "Customer name"]
+    account: ["Account", "Account number", "Account no"]
+    period: ["Statement period", "Period", "Statement date range"]
+    opening: ["Opening balance", "Beginning balance", "Previous balance", "Balance forward"]
+    credits: ["Total deposits & credits", "Total deposits and credits", "Total deposits", "Total credits",
+              "Deposits and other credits"]
+    debits: ["Total withdrawals & debits", "Total withdrawals and debits", "Total withdrawals", "Total debits",
+             "Withdrawals and other debits"]
+    closing: ["Closing balance", "Ending balance", "New balance"]
+  # PDF table header words, used only by the pdfplumber table fallback
+  table_words:
+    date: ["date", "posted"]
+    balance: ["balance", "bal"]
+    credit: ["credit", "deposit"]
+    debit: ["debit", "withdrawal"]
+    amount: ["amount"]
+    description: ["description", "details", "memo"]
+  # CSV header cells (substring match, balance is tested before amount)
+  csv_words:
+    balance: ["running bal", "balance", "bal"]
+    amount: ["amount"]
+    date: ["date"]
+    description: ["details", "description", "memo", "payee"]
+  csv_account_words: ["acct", "account"]
+  row_date_patterns:
+    - '^\d{1,2}/\d{1,2}/\d{2,4}$'
+    - '^\d{4}-\d{2}-\d{2}$'
+  max_rows: 2000          # transaction rows kept per statement
+  max_line_chars: 300     # longer lines are not table rows
+
+# MISSING_PAGE also applies to these document classes (the class name is the issue target).
+page_gap_classes: [application, guarantor_id, certificate_of_formation, ein_letter, financial_statements,
+                   tax_return, equipment_quote]
+
+thresholds:
+  rev_inflation_ratio: 1.5            # stated revenue strictly greater than this times annualized deposits
+  bank_balance_tolerance_cents: 100   # balance-sheet cash versus statement closing balance
+  revenue_tolerance_pct: 1.0          # application revenue versus a document for the same year
+  ocr_min_disagreeing_fields: 2       # an OCR-sourced ID raises ID_MISMATCH only with this many disagreements
+
+# J6: an ID that disagrees with the application raises OLD_TRICK:ID_MISMATCH. Whether it ALSO raises
+# MISMATCH:guarantor_name / guarantor_dob / guarantor_address is one flag (default no; flip to try the other reading).
+id_disagreement_also_mismatch: false
+
+# J13: the application's annual revenue is for the most recent full year before the reference date;
+# only a document covering that same year is compared (offset 1 = the calendar year before).
+revenue_year_offset: 1
+
+# SHELL_ADDRESS: mailbox-store forms only. A suite marker (Ste, Suite, #, Apt, Unit) never matches.
+shell_address_patterns:
+  - '\bpmb\b'
+  - '\bp\.\s?m\.\s?b\b'
+  - '\bp\.?\s?o\.?\s?box\b'
+  - '\bpost\s+office\s+box\b'
+  - '\bmail\s?box(?:es)?\b'
+  - '\b(?:ups\s+store|postnet|pak\s?mail|pack\s*(?:and|&)\s*ship|shipping\s+(?:center|store))\b'
+
+# Plain words for the document a disagreement was found in (borrower-facing evidence).
+doc_labels:
+  ein_letter: "IRS EIN letter"
+  certificate_of_formation: "certificate of formation"
+  tax_return: "tax return"
+  form_7004: "IRS Form 7004 extension"
+  request_letter: "request letter"
+  financial_statements: "financial statements"
+  bank_statement: "bank statement"
+  guarantor_id: "photo ID"

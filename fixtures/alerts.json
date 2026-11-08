@@ -1,0 +1,29 @@
+[
+  {
+    "at": "2026-11-04T17:00-06:00",
+    "stage": "Credit",
+    "level": "alert",
+    "to": "credit.nakamura",
+    "message": "Lone Star Dental: credit decision has waited 27 hours; the needed-by deadline (Nov 6, 3:00 PM) is at risk. Your decision unblocks it.",
+    "id": "alert-003",
+    "deal": "Lone Star Dental"
+  },
+  {
+    "at": "2026-11-04T16:00-06:00",
+    "stage": "Committee",
+    "level": "escalation",
+    "to": "mgr.ibarra",
+    "message": "Mama Rosa's Kitchen: committee approval has waited 52 hours with no response from committee.osei. Please step in.",
+    "id": "alert-002",
+    "deal": "Mama Rosa's Kitchen"
+  },
+  {
+    "at": "2026-11-04T12:00-06:00",
+    "stage": "Committee",
+    "level": "alert",
+    "to": "committee.osei",
+    "message": "Mama Rosa's Kitchen: committee approval has waited 48 hours. Your approval unblocks the deal.",
+    "id": "alert-001",
+    "deal": "Mama Rosa's Kitchen"
+  }
+]

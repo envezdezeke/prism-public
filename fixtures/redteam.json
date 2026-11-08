@@ -1,0 +1,32 @@
+{
+  "generated_by": "fixture (synthetic)",
+  "tricks": [
+    {
+      "name": "Shared preparer ring",
+      "description": "Several fake deals filed through the same tax preparer and phone.",
+      "n_deals": 12,
+      "caught": 11,
+      "catch_rate": 0.92,
+      "median_time_to_hold_hours": 3.5,
+      "false_flags": 0
+    },
+    {
+      "name": "Statement tampering",
+      "description": "Bank statements edited to inflate deposits.",
+      "n_deals": 10,
+      "caught": 9,
+      "catch_rate": 0.9,
+      "median_time_to_hold_hours": 6.0,
+      "false_flags": 0
+    },
+    {
+      "name": "Lookalike vendor account",
+      "description": "Payments routed to a near-copy of a real vendor's account.",
+      "n_deals": 8,
+      "caught": 5,
+      "catch_rate": 0.63,
+      "median_time_to_hold_hours": 14.0,
+      "false_flags": 1
+    }
+  ]
+}

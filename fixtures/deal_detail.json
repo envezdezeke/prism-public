@@ -1,0 +1,508 @@
+{
+  "Lone Star Dental": {
+    "folder": "Lone Star Dental",
+    "legal_name": "Lone Star Dental PLLC",
+    "stage": "Credit",
+    "stage_entered_at": "2026-11-03T14:00-06:00",
+    "sla_hours": 48,
+    "sla_pct": 0.58,
+    "needed_by": "2026-11-06T15:00-06:00",
+    "needed_by_badge": "at_risk",
+    "amount_requested": 85000,
+    "held": false,
+    "watch": false,
+    "rm": "rm.alvarez",
+    "facts": {
+      "legal_name": {
+        "value": "Lone Star Dental PLLC",
+        "source_doc": "certificate_of_formation.pdf",
+        "confidence": 0.98
+      },
+      "ein": {
+        "value": "12-0000001",
+        "source_doc": "ein_letter.pdf",
+        "confidence": 0.97
+      },
+      "amount_requested": {
+        "value": 85000,
+        "source_doc": "application.pdf",
+        "confidence": 0.99
+      },
+      "purpose_category": {
+        "value": "equipment",
+        "source_doc": "application.pdf",
+        "confidence": 0.93
+      },
+      "product": {
+        "value": "Equipment Loan",
+        "source_doc": "application.pdf",
+        "confidence": 0.95
+      },
+      "term_months": {
+        "value": 60,
+        "source_doc": "application.pdf",
+        "confidence": 0.96
+      },
+      "guarantor_name": {
+        "value": "Dr. Alma Reyes",
+        "source_doc": "application.pdf",
+        "confidence": 0.94
+      },
+      "annual_revenue_stated": {
+        "value": 940000,
+        "source_doc": "financial_statements.pdf",
+        "confidence": 0.9
+      },
+      "needed_by": {
+        "value": "2026-11-06T15:00-06:00",
+        "source_doc": "application.pdf",
+        "confidence": 0.88
+      }
+    },
+    "issues": [],
+    "resolved_issues": [],
+    "stage_log": [
+      {
+        "stage": "Intake",
+        "entered_at": "2026-11-03T08:30-06:00",
+        "exited_at": "2026-11-03T14:00-06:00",
+        "decision": "advanced",
+        "why": "all intake docs present; facts consistent"
+      },
+      {
+        "stage": "Credit",
+        "entered_at": "2026-11-03T14:00-06:00",
+        "exited_at": null,
+        "decision": null,
+        "why": "waiting on credit officer decision"
+      }
+    ],
+    "human_requests": [
+      {
+        "type": "credit_decision",
+        "to": "credit.nakamura",
+        "at": "2026-11-03T14:15-06:00",
+        "message": "Please review and decide the equipment loan for Lone Star Dental PLLC.",
+        "answer": null,
+        "answered_at": null
+      }
+    ],
+    "alerts": [
+      {
+        "at": "2026-11-04T17:00-06:00",
+        "stage": "Credit",
+        "level": "alert",
+        "to": "credit.nakamura",
+        "message": "Lone Star Dental: credit decision has waited 27 hours; the needed-by deadline (Nov 6, 3:00 PM) is at risk. Your decision unblocks it."
+      }
+    ],
+    "fraud": {
+      "flagged": false,
+      "held": false,
+      "flagged_at": null,
+      "stage_at_flag": null,
+      "reason": null,
+      "linked_deals": []
+    }
+  },
+  "Cedar Ridge Welding": {
+    "folder": "Cedar Ridge Welding",
+    "legal_name": "Cedar Ridge Welding LLC",
+    "stage": "Intake",
+    "stage_entered_at": "2026-11-04T12:00-06:00",
+    "sla_hours": 8,
+    "sla_pct": 0.75,
+    "needed_by": null,
+    "needed_by_badge": "none",
+    "amount_requested": 62000,
+    "held": false,
+    "watch": true,
+    "rm": "rm.alvarez",
+    "facts": {
+      "legal_name": {
+        "value": "Cedar Ridge Welding LLC",
+        "source_doc": "certificate_of_formation.pdf",
+        "confidence": 0.98
+      },
+      "ein": {
+        "value": "12-0000002",
+        "source_doc": "application.pdf",
+        "confidence": 0.8
+      },
+      "amount_requested": {
+        "value": 62000,
+        "source_doc": "application.pdf",
+        "confidence": 0.99
+      },
+      "purpose_category": {
+        "value": "working_capital",
+        "source_doc": "application.pdf",
+        "confidence": 0.93
+      },
+      "product": {
+        "value": "Working Capital Loan",
+        "source_doc": "application.pdf",
+        "confidence": 0.95
+      },
+      "term_months": {
+        "value": 36,
+        "source_doc": "application.pdf",
+        "confidence": 0.96
+      },
+      "guarantor_name": {
+        "value": "Tomas Brandt",
+        "source_doc": "application.pdf",
+        "confidence": 0.94
+      },
+      "annual_revenue_stated": {
+        "value": 410000,
+        "source_doc": "financial_statements.pdf",
+        "confidence": 0.9
+      },
+      "needed_by": null
+    },
+    "issues": [
+      "MISSING_DOC:ein_letter"
+    ],
+    "resolved_issues": [],
+    "stage_log": [
+      {
+        "stage": "Intake",
+        "entered_at": "2026-11-04T12:00-06:00",
+        "exited_at": null,
+        "decision": null,
+        "why": "EIN letter missing; asked the borrower"
+      }
+    ],
+    "human_requests": [
+      {
+        "type": "info_request",
+        "to": "borrower",
+        "at": "2026-11-04T12:30-06:00",
+        "message": "Please send the IRS EIN letter.",
+        "answer": null,
+        "answered_at": null
+      }
+    ],
+    "alerts": [],
+    "fraud": {
+      "flagged": false,
+      "held": false,
+      "flagged_at": null,
+      "stage_at_flag": null,
+      "reason": null,
+      "linked_deals": []
+    }
+  },
+  "Mama Rosa's Kitchen": {
+    "folder": "Mama Rosa's Kitchen",
+    "legal_name": "Mama Rosa's Kitchen Inc",
+    "stage": "Committee",
+    "stage_entered_at": "2026-11-02T12:00-06:00",
+    "sla_hours": 48,
+    "sla_pct": 1.13,
+    "needed_by": null,
+    "needed_by_badge": "none",
+    "amount_requested": 410000,
+    "held": false,
+    "watch": false,
+    "rm": "rm.alvarez",
+    "facts": {
+      "legal_name": {
+        "value": "Mama Rosa's Kitchen Inc",
+        "source_doc": "certificate_of_formation.pdf",
+        "confidence": 0.98
+      },
+      "ein": {
+        "value": "12-0000003",
+        "source_doc": "ein_letter.pdf",
+        "confidence": 0.97
+      },
+      "amount_requested": {
+        "value": 410000,
+        "source_doc": "application.pdf",
+        "confidence": 0.99
+      },
+      "purpose_category": {
+        "value": "expansion",
+        "source_doc": "application.pdf",
+        "confidence": 0.93
+      },
+      "product": {
+        "value": "Term Loan",
+        "source_doc": "application.pdf",
+        "confidence": 0.95
+      },
+      "term_months": {
+        "value": 84,
+        "source_doc": "application.pdf",
+        "confidence": 0.96
+      },
+      "guarantor_name": {
+        "value": "Rosa Delgado",
+        "source_doc": "application.pdf",
+        "confidence": 0.94
+      },
+      "annual_revenue_stated": {
+        "value": 1850000,
+        "source_doc": "financial_statements.pdf",
+        "confidence": 0.9
+      },
+      "needed_by": null
+    },
+    "issues": [],
+    "resolved_issues": [
+      "MISSING_PAGE:bank_statement_2026-09"
+    ],
+    "stage_log": [
+      {
+        "stage": "Intake",
+        "entered_at": "2026-11-02T08:30-06:00",
+        "exited_at": "2026-11-02T10:00-06:00",
+        "decision": "advanced",
+        "why": "all intake docs present; facts consistent"
+      },
+      {
+        "stage": "Credit",
+        "entered_at": "2026-11-02T10:00-06:00",
+        "exited_at": "2026-11-02T12:00-06:00",
+        "decision": "advanced",
+        "why": "credit approved; statements complete after the missing page arrived"
+      },
+      {
+        "stage": "Committee",
+        "entered_at": "2026-11-02T12:00-06:00",
+        "exited_at": null,
+        "decision": null,
+        "why": "waiting on full committee approval (amount above the delegated limit)"
+      }
+    ],
+    "human_requests": [
+      {
+        "type": "credit_decision",
+        "to": "credit.nakamura",
+        "at": "2026-11-02T10:15-06:00",
+        "message": "Please review and decide the term loan for Mama Rosa's Kitchen Inc.",
+        "answer": "approve",
+        "answered_at": "2026-11-02T11:50-06:00"
+      },
+      {
+        "type": "committee_approval",
+        "to": "committee.osei",
+        "at": "2026-11-02T12:15-06:00",
+        "message": "Amount is above the delegated limit; full committee approval needed.",
+        "answer": null,
+        "answered_at": null
+      }
+    ],
+    "alerts": [
+      {
+        "at": "2026-11-04T12:00-06:00",
+        "stage": "Committee",
+        "level": "alert",
+        "to": "committee.osei",
+        "message": "Mama Rosa's Kitchen: committee approval has waited 48 hours. Your approval unblocks the deal."
+      },
+      {
+        "at": "2026-11-04T16:00-06:00",
+        "stage": "Committee",
+        "level": "escalation",
+        "to": "mgr.ibarra",
+        "message": "Mama Rosa's Kitchen: committee approval has waited 52 hours with no response from committee.osei. Please step in."
+      }
+    ],
+    "fraud": {
+      "flagged": false,
+      "held": false,
+      "flagged_at": null,
+      "stage_at_flag": null,
+      "reason": null,
+      "linked_deals": []
+    }
+  },
+  "Bayou Bistro & Grill": {
+    "folder": "Bayou Bistro & Grill",
+    "legal_name": "Bayou Bistro & Grill LLC",
+    "stage": "Intake",
+    "stage_entered_at": "2026-11-03T08:00-06:00",
+    "sla_hours": 8,
+    "sla_pct": 0.44,
+    "needed_by": null,
+    "needed_by_badge": "none",
+    "amount_requested": 150000,
+    "held": true,
+    "watch": false,
+    "rm": "rm.alvarez",
+    "facts": {
+      "legal_name": {
+        "value": "Bayou Bistro & Grill LLC",
+        "source_doc": "certificate_of_formation.pdf",
+        "confidence": 0.98
+      },
+      "ein": {
+        "value": "12-0000004",
+        "source_doc": "ein_letter.pdf",
+        "confidence": 0.97
+      },
+      "amount_requested": {
+        "value": 150000,
+        "source_doc": "application.pdf",
+        "confidence": 0.99
+      },
+      "purpose_category": {
+        "value": "inventory",
+        "source_doc": "application.pdf",
+        "confidence": 0.93
+      },
+      "product": {
+        "value": "Revolving Line of Credit",
+        "source_doc": "application.pdf",
+        "confidence": 0.95
+      },
+      "term_months": {
+        "value": 24,
+        "source_doc": "application.pdf",
+        "confidence": 0.96
+      },
+      "guarantor_name": {
+        "value": "Colette Marchand",
+        "source_doc": "application.pdf",
+        "confidence": 0.94
+      },
+      "annual_revenue_stated": {
+        "value": 720000,
+        "source_doc": "financial_statements.pdf",
+        "confidence": 0.9
+      },
+      "needed_by": null
+    },
+    "issues": [
+      "OLD_TRICK:SHELL_ADDRESS",
+      "MISMATCH:guarantor_address"
+    ],
+    "resolved_issues": [],
+    "stage_log": [
+      {
+        "stage": "Intake",
+        "entered_at": "2026-11-03T08:00-06:00",
+        "exited_at": "2026-11-03T11:30-06:00",
+        "decision": "held",
+        "why": "fraud hold: rare entities shared with Juniper Creek Nursery and a prior deal"
+      }
+    ],
+    "human_requests": [
+      {
+        "type": "fraud_hold",
+        "to": "fraudops.keller",
+        "at": "2026-11-03T11:35-06:00",
+        "message": "Held at intake: rare entities shared with Juniper Creek Nursery and a prior deal. Confirm or release.",
+        "answer": null,
+        "answered_at": null
+      }
+    ],
+    "alerts": [],
+    "fraud": {
+      "flagged": true,
+      "held": true,
+      "flagged_at": "2026-11-03T11:30-06:00",
+      "stage_at_flag": "Intake",
+      "reason": "Same tax preparer and phone as Juniper Creek Nursery and prior deal H-0000-001; both applications opened an hour apart with the same PDF producer.",
+      "linked_deals": [
+        "Juniper Creek Nursery",
+        "H-0000-001"
+      ]
+    }
+  },
+  "Juniper Creek Nursery": {
+    "folder": "Juniper Creek Nursery",
+    "legal_name": "Juniper Creek Nursery LLC",
+    "stage": "Intake",
+    "stage_entered_at": "2026-11-03T09:00-06:00",
+    "sla_hours": 8,
+    "sla_pct": 0.75,
+    "needed_by": null,
+    "needed_by_badge": "none",
+    "amount_requested": 98000,
+    "held": true,
+    "watch": false,
+    "rm": "rm.alvarez",
+    "facts": {
+      "legal_name": {
+        "value": "Juniper Creek Nursery LLC",
+        "source_doc": "certificate_of_formation.pdf",
+        "confidence": 0.98
+      },
+      "ein": {
+        "value": "12-0000005",
+        "source_doc": "ein_letter.pdf",
+        "confidence": 0.97
+      },
+      "amount_requested": {
+        "value": 98000,
+        "source_doc": "application.pdf",
+        "confidence": 0.99
+      },
+      "purpose_category": {
+        "value": "working_capital",
+        "source_doc": "application.pdf",
+        "confidence": 0.93
+      },
+      "product": {
+        "value": "Term Loan",
+        "source_doc": "application.pdf",
+        "confidence": 0.95
+      },
+      "term_months": {
+        "value": 36,
+        "source_doc": "application.pdf",
+        "confidence": 0.96
+      },
+      "guarantor_name": {
+        "value": "Wade Hollister",
+        "source_doc": "application.pdf",
+        "confidence": 0.94
+      },
+      "annual_revenue_stated": {
+        "value": 530000,
+        "source_doc": "financial_statements.pdf",
+        "confidence": 0.9
+      },
+      "needed_by": null
+    },
+    "issues": [
+      "MISMATCH:guarantor_address"
+    ],
+    "resolved_issues": [],
+    "stage_log": [
+      {
+        "stage": "Intake",
+        "entered_at": "2026-11-03T09:00-06:00",
+        "exited_at": "2026-11-03T15:00-06:00",
+        "decision": "held",
+        "why": "fraud hold: rare entities shared with Bayou Bistro & Grill and a prior deal"
+      }
+    ],
+    "human_requests": [
+      {
+        "type": "fraud_hold",
+        "to": "fraudops.keller",
+        "at": "2026-11-03T15:05-06:00",
+        "message": "Held at intake: rare entities shared with Bayou Bistro & Grill and a prior deal. Confirm or release.",
+        "answer": null,
+        "answered_at": null
+      }
+    ],
+    "alerts": [],
+    "fraud": {
+      "flagged": true,
+      "held": true,
+      "flagged_at": "2026-11-03T15:00-06:00",
+      "stage_at_flag": "Intake",
+      "reason": "Same tax preparer and phone as Bayou Bistro & Grill and prior deal H-0000-001; both applications opened an hour apart with the same PDF producer.",
+      "linked_deals": [
+        "Bayou Bistro & Grill",
+        "H-0000-001"
+      ]
+    }
+  }
+}

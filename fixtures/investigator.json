@@ -1,0 +1,50 @@
+{
+  "cluster_id": "C-001",
+  "mode": "replay",
+  "steps": [
+    {
+      "step": 1,
+      "thought": "Start from the held deals and look at who else touches the same entities.",
+      "tool": "graph_neighbors",
+      "args": {
+        "deal": "Bayou Bistro & Grill"
+      },
+      "result_summary": "Bayou shares preparer Northpoint Tax & Bookkeeping and phone (210) 555-0142 with Juniper Creek Nursery; the preparer also appears on H-0000-001."
+    },
+    {
+      "step": 2,
+      "thought": "Check whether the prior deal with the same preparer is a known problem.",
+      "tool": "history_search",
+      "args": {
+        "entity": "ent-preparer-01"
+      },
+      "result_summary": "H-0000-001 used the same preparer; it is the only history deal with this entity."
+    },
+    {
+      "step": 3,
+      "thought": "Compare how the two applications were produced.",
+      "tool": "doc_forensics",
+      "args": {
+        "deals": [
+          "Bayou Bistro & Grill",
+          "Juniper Creek Nursery"
+        ],
+        "doc": "application.pdf"
+      },
+      "result_summary": "Both PDFs carry the producer string SwiftDocs PDF Engine 2.1 and were opened one hour apart."
+    },
+    {
+      "step": 4,
+      "thought": "Look at deposit history for a staged pattern.",
+      "tool": "deposit_pattern",
+      "args": {
+        "deals": [
+          "Bayou Bistro & Grill",
+          "Juniper Creek Nursery"
+        ]
+      },
+      "result_summary": "Fewer than 6 deposits per deal, so the deposit family cannot fire."
+    }
+  ],
+  "case_summary": "Bayou Bistro & Grill and Juniper Creek Nursery share a very rare tax preparer and phone with each other and with a prior deal, and their applications were produced the same way an hour apart. Three families fire, so the cluster is held. The shared bank is common and was not counted."
+}

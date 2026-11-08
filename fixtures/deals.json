@@ -1,0 +1,72 @@
+[
+  {
+    "folder": "Lone Star Dental",
+    "legal_name": "Lone Star Dental PLLC",
+    "stage": "Credit",
+    "stage_entered_at": "2026-11-03T14:00-06:00",
+    "sla_hours": 48.0,
+    "sla_pct": 0.58,
+    "needed_by": "2026-11-06T15:00-06:00",
+    "needed_by_badge": "at_risk",
+    "amount_requested": 85000,
+    "held": false,
+    "watch": false,
+    "rm": "rm.alvarez"
+  },
+  {
+    "folder": "Cedar Ridge Welding",
+    "legal_name": "Cedar Ridge Welding LLC",
+    "stage": "Intake",
+    "stage_entered_at": "2026-11-04T12:00-06:00",
+    "sla_hours": 8.0,
+    "sla_pct": 0.75,
+    "needed_by": null,
+    "needed_by_badge": "none",
+    "amount_requested": 62000,
+    "held": false,
+    "watch": true,
+    "rm": "rm.alvarez"
+  },
+  {
+    "folder": "Mama Rosa's Kitchen",
+    "legal_name": "Mama Rosa's Kitchen Inc",
+    "stage": "Committee",
+    "stage_entered_at": "2026-11-02T12:00-06:00",
+    "sla_hours": 48.0,
+    "sla_pct": 1.13,
+    "needed_by": null,
+    "needed_by_badge": "none",
+    "amount_requested": 410000,
+    "held": false,
+    "watch": false,
+    "rm": "rm.alvarez"
+  },
+  {
+    "folder": "Bayou Bistro & Grill",
+    "legal_name": "Bayou Bistro & Grill LLC",
+    "stage": "Intake",
+    "stage_entered_at": "2026-11-03T08:00-06:00",
+    "sla_hours": 8.0,
+    "sla_pct": 0.44,
+    "needed_by": null,
+    "needed_by_badge": "none",
+    "amount_requested": 150000,
+    "held": true,
+    "watch": false,
+    "rm": "rm.alvarez"
+  },
+  {
+    "folder": "Juniper Creek Nursery",
+    "legal_name": "Juniper Creek Nursery LLC",
+    "stage": "Intake",
+    "stage_entered_at": "2026-11-03T09:00-06:00",
+    "sla_hours": 8.0,
+    "sla_pct": 0.75,
+    "needed_by": null,
+    "needed_by_badge": "none",
+    "amount_requested": 98000,
+    "held": true,
+    "watch": false,
+    "rm": "rm.alvarez"
+  }
+]

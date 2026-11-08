@@ -1,0 +1,368 @@
+# Read (Phase 3) settings. Generic words only: form titles, field labels, common English words.
+# No company, person, EIN or folder name from any sample belongs here (guard test enforces it).
+#
+# Schema (every section is also reachable as ReadConfig.raw[<name>]):
+#   quiet_minutes   J11 quiet window; must equal config/move.yaml quiet_minutes
+#   limits          max_bytes / max_pages / max_chars caps for untrusted input
+#   confidence      label, table, ocr, range, inferred, vl (UI bins: High >= 0.9, Medium >= 0.6)
+#   classify        title_lines, min_score, image_default_class, signals (per class list of
+#                   {kind: phrase|regex|csv_headers, text|pattern|tokens, weight, where: title|any})
+#   labels.<class>  field -> list of label synonyms (casefolded, whole-line or "label: value")
+#   stops           label-block terminators ("text" exact line, "text*" prefix)
+
+quiet_minutes: 30
+
+limits:
+  max_bytes: 26214400     # 25 MB
+  max_pages: 80
+  max_chars: 400000
+  max_images: 6           # embedded images OCR'd per file
+
+confidence:
+  label: 0.95
+  table: 0.9
+  ocr: 0.6
+  range: 0.5
+  inferred: 0.5
+  vl: 0.55
+  keyword: 0.6          # purpose chosen from a keyword hit
+
+classify:
+  title_lines: 6
+  min_score: 3.0
+  image_default_class: guarantor_id
+  period:                # statement period label synonyms (value holds the date range)
+    labels: ["Statement period", "Period", "Statement date range"]
+  signals:
+    application:
+      - {kind: phrase, text: "small business loan application", weight: 3.0, where: title}
+      - {kind: phrase, text: "legal business name", weight: 1.0, where: any}
+      - {kind: phrase, text: "amount requested", weight: 1.0, where: any}
+      - {kind: phrase, text: "automatic extension", weight: -5.0, where: any}
+    guarantor_id:
+      - {kind: regex, pattern: 'driver''?s?\s*licen[cs]e', weight: 3.0, where: title}
+      - {kind: regex, pattern: '\bdl\s*(?:number|no\.?|#)?\s*[:#]?\s*[a-z]{0,2}\s*\d{5,}', weight: 1.0, where: any}
+      - {kind: phrase, text: "dl number", weight: 1.0, where: any}
+      - {kind: regex, pattern: '\b(?:dob|date\s*of\s*birth)\s*[:]?\s*\d', weight: 0.5, where: any}
+      - {kind: regex, pattern: '\b(?:exp|expires)\s*[:]?\s*\d', weight: 0.5, where: any}
+      - {kind: phrase, text: "small business loan application", weight: -5.0, where: title}
+    certificate_of_formation:
+      - {kind: phrase, text: "certificate of formation", weight: 3.0, where: title}
+      - {kind: phrase, text: "filing acknowledgment", weight: 1.0, where: title}
+      - {kind: phrase, text: "secretary of state", weight: 1.0, where: any}
+      - {kind: phrase, text: "registered agent", weight: 1.0, where: any}
+      - {kind: phrase, text: "file number", weight: 0.5, where: any}
+    ein_letter:
+      - {kind: regex, pattern: 'irs\s+notice|\bcp\s?575\b', weight: 3.0, where: title}
+      - {kind: phrase, text: "ein assigned", weight: 1.0, where: title}
+      - {kind: phrase, text: "employer identification number", weight: 1.0, where: any}
+      - {kind: phrase, text: "date of notice", weight: 0.5, where: any}
+    bank_statement:
+      - {kind: phrase, text: "business checking statement", weight: 3.0, where: title}
+      - {kind: phrase, text: "opening balance", weight: 1.0, where: any}
+      - {kind: phrase, text: "closing balance", weight: 1.0, where: any}
+      - {kind: phrase, text: "statement period", weight: 1.0, where: any}
+      - {kind: phrase, text: "total deposits", weight: 0.5, where: any}
+      - {kind: csv_headers, tokens: ["date", "amount", "bal"], weight: 4.0}
+    financial_statements:
+      - {kind: phrase, text: "financial statements", weight: 3.0, where: title}
+      - {kind: phrase, text: "profit & loss", weight: 1.0, where: any}
+      - {kind: phrase, text: "balance sheet", weight: 1.0, where: any}
+      - {kind: phrase, text: "prepared by", weight: 0.5, where: any}
+    tax_return:
+      - {kind: phrase, text: "income tax return", weight: 3.0, where: title}
+      - {kind: phrase, text: "gross receipts", weight: 1.0, where: any}
+      - {kind: phrase, text: "ordinary business income", weight: 1.0, where: any}
+      - {kind: phrase, text: "paid preparer", weight: 0.5, where: any}
+      - {kind: phrase, text: "automatic extension", weight: -5.0, where: any}
+      - {kind: phrase, text: "extended due date", weight: -5.0, where: any}
+    form_7004:
+      - {kind: phrase, text: "form 7004", weight: 3.0, where: title}
+      - {kind: phrase, text: "automatic extension", weight: 1.0, where: title}
+      - {kind: phrase, text: "extended due date", weight: 1.0, where: any}
+      - {kind: phrase, text: "tax year", weight: 0.5, where: any}
+    request_letter:
+      - {kind: regex, pattern: '(?m)^\s*re:\s*loan\s+request', weight: 3.0, where: title}
+      - {kind: phrase, text: "we are requesting", weight: 1.0, where: any}
+      - {kind: phrase, text: "small business loan application", weight: -5.0, where: title}
+    equipment_quote:
+      - {kind: regex, pattern: '(?m)^\s*(quotation|quote)\b', weight: 3.0, where: title}
+      - {kind: phrase, text: "remit to", weight: 1.5, where: any}
+      - {kind: phrase, text: "account ending", weight: 1.0, where: any}
+      - {kind: phrase, text: "total", weight: 0.5, where: any}
+
+stops:
+  - "Section*"
+  - "I certify*"
+  - "/s/*"
+
+labels:
+  application:
+    legal_name: ["Legal business name", "Legal name", "Business legal name"]
+    dba: ["DBA / trade name", "DBA", "Trade name", "Doing business as"]
+    ein: ["Federal EIN", "EIN", "Employer identification number", "Federal tax ID"]
+    entity_type: ["Entity type / state", "Entity type", "Type of entity"]
+    formation_date: ["Date business established", "Date established", "Date of formation", "Business start date"]
+    business_address: ["Business address", "Address of business", "Principal business address"]
+    business_phone_email: ["Business phone / email", "Business phone", "Phone / email"]
+    industry: ["Industry (NAICS)", "Industry", "NAICS"]
+    employees: ["Number of employees", "Employees"]
+    revenue: ["Annual revenue (most recent year)", "Annual revenue", "Annual gross revenue"]
+    bank: ["Primary bank / account", "Primary bank", "Bank / account"]
+    amount_requested: ["Amount requested", "Loan amount", "Requested amount"]
+    product: ["Product", "Loan product", "Product type"]
+    purpose: ["Use of proceeds", "Purpose of loan", "Loan purpose"]
+    term: ["Requested term", "Term requested", "Loan term"]
+    collateral: ["Collateral offered", "Collateral"]
+    needed_by: ["Funds needed by", "Needed by", "Date funds needed"]
+    guarantor_name: ["Name", "Guarantor name", "Owner name"]
+    guarantor_title: ["Title / ownership", "Title", "Ownership"]
+    guarantor_dob: ["Date of birth", "DOB"]
+    guarantor_ssn: ["SSN", "Social security number"]
+    guarantor_address: ["Home address", "Residence address"]
+    guarantor_dl: ["Driver license", "Driver's license", "Driver license number"]
+    affiliated: ["Affiliated businesses", "Affiliates"]
+    application_date: ["Application date", "Date of application", "Date submitted"]
+  guarantor_id:
+    name: ["Name", "Full name", "Holder name"]
+    address: ["Address", "Home address", "Residence address"]
+    dob: ["Date of birth", "DOB", "Birth date"]
+    dl: ["DL number", "Driver license number", "Driver's license number", "License number", "DL no", "DLN"]
+    class: ["Class"]
+    issued: ["Issued", "Issue date", "ISS"]
+    expires: ["Expires", "Expiration date", "Expiry date", "EXP"]
+  ein_letter:
+    name: ["Name of business", "Business name", "Legal name", "Name"]
+    ein: ["Employer Identification Number", "EIN", "Employer ID number"]
+    notice_date: ["Date of notice", "Notice date", "Date of this notice"]
+  certificate_of_formation:
+    entity_name: ["Entity name", "Name of entity", "Company name", "Name of company"]
+    entity_type: ["Entity type", "Type of entity"]
+    file_number: ["File number", "Filing number", "SOS file number"]
+    effective_date: ["Effective date", "Date of filing", "Filing date"]
+    principal_office: ["Principal office", "Principal address", "Principal place of business"]
+    registered_agent: ["Registered agent", "Registered agent name"]
+    registered_office: ["Registered office", "Registered office address", "Registered agent address"]
+    organizer: ["Organizer", "Organizers"]
+  tax_return:
+    name: ["Name", "Taxpayer name", "Name of entity", "Business name"]
+    ein: ["EIN", "Employer identification number"]
+    gross: ["Gross receipts or sales", "Gross receipts"]
+    income: ["Ordinary business income", "Ordinary income", "Ordinary business income (loss)"]
+    preparer: ["Paid preparer", "Preparer", "Paid preparer name"]
+    ptin: ["Preparer PTIN", "PTIN"]
+    filed: ["Date filed", "Filing date", "Date signed"]
+    tax_year: ["Tax year"]
+  form_7004:
+    name: ["Name", "Name of business", "Business name"]
+    ein: ["EIN", "Employer identification number"]
+    tax_year: ["Tax year"]
+    due: ["Extended due date", "New due date", "Extension due date"]
+    status: ["Status", "Filing status"]
+  equipment_quote:
+    remit: ["Remit to", "Remit payment to", "Pay to"]
+    total: ["Total", "Total due", "Grand total", "Quote total", "Total price"]
+    quote_date: ["Quote date", "Date of quote", "Date"]
+    customer: ["Customer", "Bill to", "Prepared for"]
+  financial_statements:
+    prepared_by: ["Prepared by", "Compiled by", "Accountant"]
+    pl_heading: ["Profit & Loss", "Profit and loss", "Income statement", "Profit & loss statement"]
+    revenue: ["Revenue", "Total revenue", "Sales", "Net sales"]
+    net_income: ["Net income", "Net profit", "Net income (loss)"]
+    cash: ["Cash", "Cash and equivalents", "Cash & equivalents"]
+    receivables: ["Accounts receivable", "Receivables", "Trade receivables"]
+    liabilities: ["Total liabilities", "Liabilities, total"]
+
+# Free-form generic patterns for the form parsers. Each pattern is matched against whitespace-collapsed
+# document text; the first capture group is the value. Only these config regexes are ever compiled.
+patterns:
+  tax_year:
+    - 'tax\s+year\W{0,4}(\d{4})'
+    - 'for\s+the\s+year\s+(?:ended\W+)?\w*\W*(\d{4})'
+  request_amount:  # a $, a scale suffix or a thousands-grouped number is required; 36 months is not money
+    - 'we\s+are\s+requesting\s+(?:[\w,-]+\s+){0,5}?(\$\s?\d[\d,]*(?:\.\d+)?(?:\s?(?:k|mm|m|thousand|million)\b)?|(?<![\d,.])\d{1,3}(?:,\d{3})+(?:\.\d+)?|(?<![\d,.])\d+(?:\.\d+)?\s?(?:k|mm|m|thousand|million)\b)(?![\w%])(?!\s?(?:months?|years?|yrs?|%))'
+    - '(?:requesting|seeking|asking\s+for|request\s+for|loan\s+of)\s+(?:[\w,-]+\s+){0,5}?(\$\s?\d[\d,]*(?:\.\d+)?(?:\s?(?:k|mm|m|thousand|million)\b)?|(?<![\d,.])\d{1,3}(?:,\d{3})+(?:\.\d+)?|(?<![\d,.])\d+(?:\.\d+)?\s?(?:k|mm|m|thousand|million)\b)(?![\w%])(?!\s?(?:months?|years?|yrs?|%))'
+  quote_number: '^\s*(?:quotation|quote|estimate|proforma)\s*(?:no\.?|number|#)?\s*[:#]?\s*([A-Za-z0-9][\w./-]*)'
+  quote_account: 'acc(?:oun)?t\.?\s*(?:ending|no\.?|number|#)?\s*(?:in\s+)?[:.#]?\s*(?:x+|\*+|\.+)?\s*(\d{4})\b'
+  fy: ['\bfy\s*(\d{4})', 'fiscal\s+year\s+(\d{4})', 'year\s+ended\W+\w+\W+\d{1,2}\W+(\d{4})']
+  ytd: ['\bytd\W+([A-Za-z]{3,9})\W+([A-Za-z]{3,9})']
+  balance_date: 'as\s+of\s+(.+)$'
+
+entities:                # D-10 graph entities
+  max_length: 200
+  placeholders: ["(owner)", "owner", "n/a", "na", "none", "null", "unknown", "tbd", "not provided", "not applicable", "-", "--", "–", "—"]
+  keep_credential: true  # preparer is "<Name>, <Credential>" when the document gives a credential
+
+features:
+  vendor_lookalike: {min_similarity: 0.8, max_edit_distance: 2}
+  clean_repayment: ["current", "paid_off"]
+  past_due_repayment: ["30_days_past_due", "charged_off"]
+  min_deposit_months: 6   # deposits_annualized_cents needs this many complete months
+
+credentials: ["CPA", "EA", "CMA", "CFA", "CFP", "CPA/PFS", "MBA", "JD", "Esq", "RTRP", "PTIN"]
+separators: ["·", "•", "|", "‧", "∙"]
+
+id_ocr:                  # OCR-style ID text (spaces may be missing, uppercase, prefixes glued to values)
+  dob_prefixes: ["dob", "dateofbirth", "birthdate", "birth"]
+  exp_prefixes: ["exp", "expires", "expiry", "expiration"]
+  dl_prefixes: ["dl", "dln", "licenseno", "licensenumber", "lic"]
+  label_prefixes: ["class", "iss", "issued", "sex", "hgt", "eyes", "end", "rest"]
+  noise: ["driver", "licen", "texas", "photo", "specimen", "synthetic", "state", "identification", "usa", "united", "front", "back", "scanned"]
+
+financial_statements:
+  pl_phrases: ["profit & loss", "profit and loss", "income statement"]
+  bs_phrases: ["balance sheet"]
+  months: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
+
+sections:                # heading regexes (applied per line); the guarantor section is the owner block
+  business: ['^\s*section\s+\w+\W+business']
+  loan: ['^\s*section\s+\w+\W+loan']
+  guarantor: ['^\s*section\s+\w+\W+.*(owner|guarantor)']
+
+none_markers:            # a label present with one of these values is "declared none", not missing
+  - "no specific date"
+  - "n/a"
+  - "na"
+  - "none"
+  - "not provided"
+  - "not applicable"
+  - "tbd"
+  - "unknown"
+  - "-"
+  - "--"
+  - "–"
+  - "—"
+
+signature:
+  markers: ["/s/"]
+  labels: ["Signature", "Signed by", "Applicant signature"]
+
+product_synonyms:        # first contained phrase wins (casefolded); values are the four Product enums
+  "revolving line of credit": "Revolving Line of Credit"
+  "line of credit": "Revolving Line of Credit"
+  "revolving": "Revolving Line of Credit"
+  "loc": "Revolving Line of Credit"
+  "equipment loan": "Equipment Loan"
+  "equipment financing": "Equipment Loan"
+  "equipment": "Equipment Loan"
+  "working capital loan": "Working Capital Loan"
+  "working capital": "Working Capital Loan"
+  "term loan": "Term Loan"
+  "term": "Term Loan"
+
+purpose_keywords:        # ordered; first category with a hit wins; short words match whole words
+  - {category: payroll, words: ["payroll", "wages", "salar"]}
+  - {category: refinance, words: ["refinanc", "pay off", "payoff", "consolidat"]}
+  - {category: equipment, words: ["equipment", "vehicle", "truck", "trailer", "tractor", "van", "printer", "lift", "machine", "oven", "cooler", "mower", "forklift", "press"]}
+  - {category: expansion, words: ["expan", "hire", "hiring", "pilot", "launch", "new location", "second location", "open a"]}
+  - {category: inventory, words: ["inventory", "stock"]}
+  - {category: working_capital, words: ["receivable", "working capital", "bridge", "operating", "cash flow", "seasonal"]}
+
+term_units:
+  months: ["month", "months", "mo", "mos"]
+  years: ["year", "years", "yr", "yrs"]
+
+nicknames:               # groups of a formal first name and its common short forms (generic English)
+  - [robert, bob, rob, bobby, bert, robbie]
+  - [william, bill, will, billy, willy, liam]
+  - [james, jim, jimmy, jamie]
+  - [richard, rick, dick, rich, ricky, richie]
+  - [margaret, maggie, peggy, meg, marge, greta]
+  - [elizabeth, liz, beth, betty, eliza, lizzie, liza]
+  - [john, jack, johnny, jon]
+  - [michael, mike, mikey, mick]
+  - [thomas, tom, tommy]
+  - [charles, charlie, chuck, chas]
+  - [joseph, joe, joey]
+  - [edward, ed, eddie, ted, teddy, ned]
+  - [daniel, dan, danny]
+  - [matthew, matt]
+  - [anthony, tony]
+  - [donald, don, donnie]
+  - [steven, stephen, steve, stevie]
+  - [kenneth, ken, kenny]
+  - [andrew, andy, drew]
+  - [joshua, josh]
+  - [christopher, chris, topher]
+  - [nicholas, nick, nicky]
+  - [benjamin, ben, benny]
+  - [samuel, sam, sammy]
+  - [alexander, alex, al, xander]
+  - [jonathan, jon, jonny]
+  - [timothy, tim, timmy]
+  - [lawrence, larry, laurence]
+  - [gerald, jerry, gerry]
+  - [raymond, ray]
+  - [patrick, pat, paddy]
+  - [theodore, ted, teddy, theo]
+  - [frederick, fred, freddie, freddy]
+  - [walter, walt]
+  - [eugene, gene]
+  - [catherine, katherine, kathryn, kate, katie, kathy, cathy, kit]
+  - [patricia, pat, patty, trish, tricia]
+  - [jennifer, jen, jenny]
+  - [deborah, debra, deb, debbie]
+  - [barbara, barb, barbie]
+  - [susan, sue, susie, suzy]
+  - [dorothy, dot, dottie]
+  - [victoria, vicky, vicki, tori]
+  - [rebecca, becky, becca]
+  - [jessica, jess, jessie]
+  - [cynthia, cindy]
+  - [samantha, sam, sammy]
+  - [christine, christina, chris, chrissy, tina]
+  - [pamela, pam]
+  - [kimberly, kim]
+  - [stephanie, steph]
+  - [abigail, abby]
+  - [jacqueline, jackie]
+  - [josephine, josie]
+  - [vincent, vince]
+  - [leonard, leo, len, lenny]
+  - [douglas, doug]
+  - [gregory, greg]
+  - [phillip, philip, phil]
+  - [ronald, ron, ronnie]
+  - [harold, harry, hal]
+  - [henry, hank]
+  - [peter, pete]
+  - [albert, al, bert]
+  - [arthur, art, artie]
+  - [franklin, frank, frankie]
+  - [francis, frank, frankie, fran]
+  - [lawrence, larry]
+  - [carlos, charles]
+  - [jose, joe]
+  - [juan, john]
+  - [luis, louis, lou]
+  - [miguel, michael, mike]
+  - [antonio, anthony, tony]
+  - [francisco, frank, paco, pancho]
+  - [alejandro, alex, alexander]
+  - [ricardo, richard, rick]
+  - [eduardo, edward, ed]
+  - [fernando, fern]
+  - [guillermo, william, bill]
+
+# Nemotron VL null-fill (03-04, N2/N10). Model ids and the key come from env only (.env.example):
+# NVIDIA_API_KEY, NEMOTRON_MODE (off|replay|live), NEMOTRON_VL_MODEL, NEMOTRON_VL_FALLBACK_MODEL.
+vl:
+  max_calls: 30               # live attempts per run_sim, fallback attempts included
+  timeout_seconds: 60
+  retries: 2                  # extra attempts on a retryable failure (each counts against max_calls)
+  retry_sleep_seconds: [2, 5]
+  max_text_chars: 12000
+  max_images: 3
+  max_image_bytes: 4000000
+  max_tokens: 600
+  cache_dir_default: out/nemotron_cache
+  fillable:                   # ordered; the scored fact fields a fill may touch
+    - legal_name
+    - ein
+    - amount_requested
+    - purpose_category
+    - product
+    - term_months
+    - guarantor_name
+    - annual_revenue_stated
+    - needed_by

@@ -1,0 +1,257 @@
+{
+  "nodes": [
+    {
+      "id": "Lone Star Dental",
+      "type": "deal",
+      "label": "Lone Star Dental",
+      "kind": null
+    },
+    {
+      "id": "Cedar Ridge Welding",
+      "type": "deal",
+      "label": "Cedar Ridge Welding",
+      "kind": null
+    },
+    {
+      "id": "Mama Rosa's Kitchen",
+      "type": "deal",
+      "label": "Mama Rosa's Kitchen",
+      "kind": null
+    },
+    {
+      "id": "Bayou Bistro & Grill",
+      "type": "deal",
+      "label": "Bayou Bistro & Grill",
+      "kind": null
+    },
+    {
+      "id": "Juniper Creek Nursery",
+      "type": "deal",
+      "label": "Juniper Creek Nursery",
+      "kind": null
+    },
+    {
+      "id": "H-0000-001",
+      "type": "history_deal",
+      "label": "H-0000-001",
+      "kind": null
+    },
+    {
+      "id": "H-0000-002",
+      "type": "history_deal",
+      "label": "H-0000-002",
+      "kind": null
+    },
+    {
+      "id": "ent-preparer-01",
+      "type": "entity",
+      "label": "Northpoint Tax & Bookkeeping",
+      "kind": "preparer"
+    },
+    {
+      "id": "ent-phone-01",
+      "type": "entity",
+      "label": "(210) 555-0142",
+      "kind": "phone"
+    },
+    {
+      "id": "ent-pdfprod-01",
+      "type": "entity",
+      "label": "SwiftDocs PDF Engine 2.1",
+      "kind": "pdf_producer"
+    },
+    {
+      "id": "ent-bank-01",
+      "type": "entity",
+      "label": "First Prairie Bank",
+      "kind": "bank"
+    },
+    {
+      "id": "ent-vendor-01",
+      "type": "entity",
+      "label": "Ace Fabrication Supply",
+      "kind": "vendor"
+    }
+  ],
+  "edges": [
+    {
+      "source": "H-0000-001",
+      "target": "ent-preparer-01",
+      "entity_kind": "preparer",
+      "rarity": 0.96,
+      "weight": 2.88,
+      "first_visible_at": "2026-11-02T08:00-06:00",
+      "evidence": "Prior deal H-0000-001 used Northpoint Tax & Bookkeeping as preparer."
+    },
+    {
+      "source": "Bayou Bistro & Grill",
+      "target": "ent-preparer-01",
+      "entity_kind": "preparer",
+      "rarity": 0.96,
+      "weight": 2.88,
+      "first_visible_at": "2026-11-03T08:20-06:00",
+      "evidence": "Bayou's application lists Northpoint Tax & Bookkeeping as preparer."
+    },
+    {
+      "source": "Juniper Creek Nursery",
+      "target": "ent-preparer-01",
+      "entity_kind": "preparer",
+      "rarity": 0.96,
+      "weight": 2.88,
+      "first_visible_at": "2026-11-03T09:15-06:00",
+      "evidence": "Juniper's application lists Northpoint Tax & Bookkeeping as preparer."
+    },
+    {
+      "source": "Bayou Bistro & Grill",
+      "target": "ent-phone-01",
+      "entity_kind": "phone",
+      "rarity": 0.9,
+      "weight": 2.7,
+      "first_visible_at": "2026-11-03T08:20-06:00",
+      "evidence": "Bayou's contact phone is (210) 555-0142."
+    },
+    {
+      "source": "Juniper Creek Nursery",
+      "target": "ent-phone-01",
+      "entity_kind": "phone",
+      "rarity": 0.9,
+      "weight": 2.7,
+      "first_visible_at": "2026-11-03T09:15-06:00",
+      "evidence": "Juniper's contact phone is the same (210) 555-0142."
+    },
+    {
+      "source": "Bayou Bistro & Grill",
+      "target": "ent-pdfprod-01",
+      "entity_kind": "pdf_producer",
+      "rarity": 0.8,
+      "weight": 2.4,
+      "first_visible_at": "2026-11-03T08:25-06:00",
+      "evidence": "Bayou's application PDF was produced by SwiftDocs PDF Engine 2.1."
+    },
+    {
+      "source": "Juniper Creek Nursery",
+      "target": "ent-pdfprod-01",
+      "entity_kind": "pdf_producer",
+      "rarity": 0.8,
+      "weight": 2.4,
+      "first_visible_at": "2026-11-03T09:20-06:00",
+      "evidence": "Juniper's application PDF has the same producer string."
+    },
+    {
+      "source": "H-0000-001",
+      "target": "ent-bank-01",
+      "entity_kind": "bank",
+      "rarity": 0.12,
+      "weight": 0.36,
+      "first_visible_at": "2026-11-02T08:00-06:00",
+      "evidence": "Prior deal H-0000-001 banks at First Prairie Bank."
+    },
+    {
+      "source": "Bayou Bistro & Grill",
+      "target": "ent-bank-01",
+      "entity_kind": "bank",
+      "rarity": 0.12,
+      "weight": 0.36,
+      "first_visible_at": "2026-11-03T08:20-06:00",
+      "evidence": "Bayou banks at First Prairie Bank, a common local bank."
+    },
+    {
+      "source": "Juniper Creek Nursery",
+      "target": "ent-bank-01",
+      "entity_kind": "bank",
+      "rarity": 0.12,
+      "weight": 0.36,
+      "first_visible_at": "2026-11-03T09:15-06:00",
+      "evidence": "Juniper banks at First Prairie Bank, a common local bank."
+    },
+    {
+      "source": "H-0000-002",
+      "target": "ent-vendor-01",
+      "entity_kind": "vendor",
+      "rarity": 0.35,
+      "weight": 1.05,
+      "first_visible_at": "2026-11-02T08:00-06:00",
+      "evidence": "Prior deal H-0000-002 paid Ace Fabrication Supply."
+    },
+    {
+      "source": "Cedar Ridge Welding",
+      "target": "ent-vendor-01",
+      "entity_kind": "vendor",
+      "rarity": 0.35,
+      "weight": 1.05,
+      "first_visible_at": "2026-11-04T12:10-06:00",
+      "evidence": "Cedar Ridge's equipment quote is from Ace Fabrication Supply."
+    }
+  ],
+  "clusters": [
+    {
+      "id": "C-001",
+      "deals": [
+        "Bayou Bistro & Grill",
+        "Juniper Creek Nursery",
+        "H-0000-001"
+      ],
+      "families": {
+        "F1": {
+          "fired": true,
+          "evidence": "Tax preparer shared by 3 deals, phone shared by 2; both very rare."
+        },
+        "F2": {
+          "fired": true,
+          "evidence": "Two applications opened one hour apart."
+        },
+        "F3": {
+          "fired": false,
+          "evidence": "not fired"
+        },
+        "F4": {
+          "fired": true,
+          "evidence": "Same PDF producer string on both applications."
+        },
+        "F5": {
+          "fired": false,
+          "evidence": "fewer than 6 deposits; the family needs at least 6"
+        },
+        "F6": {
+          "fired": false,
+          "evidence": "not fired"
+        }
+      },
+      "tier": "hold"
+    },
+    {
+      "id": "C-002",
+      "deals": [
+        "Cedar Ridge Welding",
+        "H-0000-002"
+      ],
+      "families": {
+        "F1": {
+          "fired": true,
+          "evidence": "Shared vendor, moderately common; not enough alone."
+        },
+        "F2": {
+          "fired": false,
+          "evidence": "not fired"
+        },
+        "F3": {
+          "fired": false,
+          "evidence": "not fired"
+        },
+        "F4": {
+          "fired": false,
+          "evidence": "not fired"
+        },
+        "F5": {
+          "fired": false,
+          "evidence": "not fired"
+        },
+        "F6": {
+          "fired": false,
+          "evidence": "not fired"
+        }
+      },
+      "tier": "watch"
+    }
+  ]
+}

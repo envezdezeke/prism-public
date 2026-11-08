@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "prism"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi",
+    "pydantic>=2",
+    "pyyaml",
+    "uvicorn",
+    "pypdf>=6.21,<7",
+    "pdfplumber>=0.11.10,<0.12",
+    "rapidocr-onnxruntime>=1.2.3,<2",
+    "onnxruntime>=1.31.1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "httpx"]
+
+[tool.setuptools.packages.find]
+include = ["prism*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

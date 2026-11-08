@@ -1,0 +1,123 @@
+# Move (Phase 4) rule values. Ladder percentages, SLA hours and routing live in the data pack
+# (stages.json, teams.json), never here. Boundaries are strings so they load as exact decimals.
+
+quiet_minutes: 30            # J11: nothing is judged until the folder has been quiet this long
+
+business_hours:              # J16: people answer Mon-Fri; SLA clocks and alerts run 24/7
+  days: [0, 1, 2, 3, 4]      # Monday = 0
+  open: "08:00"
+  close: "18:00"
+
+auto_stage_minutes: {}       # minimum dwell for a stage with no human gate; missing means 0
+
+required_facts:              # facts a stage cannot exit without
+  Intake: [legal_name, amount_requested]
+
+issue_rules:
+  requestable:               # open issues we ask the borrower about
+    - 'MISSING_(DOC|PAGE):.+'
+    - 'MISMATCH:.+'
+  immediate:                 # asked as soon as found, without waiting for the quiet period
+    - 'MISMATCH:.+'
+  blocking:                  # open issues that keep a deal in the named stage
+    Intake:
+      - 'MISSING_(DOC|PAGE):(application|guarantor_id|certificate_of_formation|ein_letter)'
+      - 'MISMATCH:(legal_name|ein|amount_requested|guarantor_name)'
+      - 'OLD_TRICK:.+'
+    Credit:
+      - 'MISSING_(DOC|PAGE):(bank_statement_.+|financial_statements|tax_return)'
+      - 'MISMATCH:(annual_revenue|bank_balance|guarantor_dob|guarantor_address)'
+      - 'OLD_TRICK:.+'
+    Committee:
+      - 'OLD_TRICK:.+'
+    Product:
+      - 'MISSING_(DOC|PAGE):equipment_quote'
+      - 'OLD_TRICK:.+'
+    Committed:
+      - '.+'
+    Closed:
+      - '.+'
+
+vendor_check_products: [Equipment Loan]
+
+gate_roles:                  # gate type -> assignment role (otherwise routed by stage data)
+  credit_decision: credit_officer
+  commitment_signoff: relationship_manager
+
+gates:
+  credit_decision:
+    options: [approve, decline, request_info]
+    advance: [approve]
+    stop: [decline]
+    info: [request_info]
+  committee_approval:
+    options: [approve, decline]
+    advance: [approve]
+    stop: [decline]
+    info: []
+  commitment_signoff:
+    options: [confirm, not_yet]
+    advance: [confirm]
+    stop: []
+    info: []
+  funding_release:
+    options: [release, hold]
+    advance: [release]
+    stop: []
+    info: []
+  fraud_hold:
+    options: [place_hold, release_hold]
+    advance: []
+    stop: []
+    info: []
+
+responder:                   # scripted answerers (MOVE-08); env PRISM_MOVE_PERSONA overrides default
+  default: fast
+  by_person: {}
+  by_type: {}
+  personas:
+    fast: {wall_hours: 0, business_minutes: 15}
+    slow: {wall_hours: 0, business_minutes: 1200}
+    ooo: {wall_hours: 72, business_minutes: 15}
+    never: null
+  answers:
+    credit_decision: approve
+    committee_approval: approve
+    commitment_signoff: confirm
+    funding_release: release
+    fraud_hold: place_hold
+  superseded_label: superseded
+
+fraud_chase:                 # J22
+  first_hours: 2
+  second_hours: 4
+
+deadline:                    # J18
+  statistic: median
+
+credit_memo:                 # docs/CREDIT_MEMO_TEMPLATE.md
+  assumed_rate: "0.09"
+  coverage_bands:            # coverage >= min takes the points; below the last band takes floor_points
+    - {min: "2.0", points: 0}
+    - {min: "1.5", points: 1}
+    - {min: "1.25", points: 2}
+    - {min: "1.0", points: 3}
+  coverage_floor_points: 4
+  revenue_bands:             # support <= max takes the points; above the last band is grade 5
+    - {max: "1.1", points: 0}
+    - {max: "1.5", points: 1}
+  time_in_business_bands:    # years >= min takes the points
+    - {min: "5", points: 0}
+    - {min: "2", points: 1}
+  time_in_business_floor_points: 2
+  relationship_points:
+    returning_clean: 0
+    new: 1
+    returning_past_due: 2
+  grade_bands:               # total points <= max_points takes the grade; above the last is top_grade
+    - {max_points: 0, grade: 1, name: Strong}
+    - {max_points: 2, grade: 2, name: Satisfactory}
+    - {max_points: 4, grade: 3, name: Acceptable}
+    - {max_points: 6, grade: 4, name: Watch}
+  top_grade: {grade: 5, name: Weak}
+  watch_min_grade: 3

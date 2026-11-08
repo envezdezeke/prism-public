@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Prism">
+  <!-- Prism mark: one beam (a deal) enters, the prism splits it into its signals.
+       Colours are the UI tokens: navy #0E2846, sky #7399C6, plus tints of sky. -->
+  <rect width="64" height="64" rx="12" fill="#0E2846"/>
+  <!-- incoming beam -->
+  <polygon points="3,38.2 19,33.4 19,35.4 3,40.2" fill="#FFFFFF"/>
+  <!-- light inside the glass -->
+  <polygon points="19,33.4 44.5,30.6 44.5,36.6 19,35.4" fill="#FFFFFF" opacity="0.35"/>
+  <!-- refracted fan of blues -->
+  <polygon points="44.5,30.6 61,24 61,30.5 44.5,32.1" fill="#DCE7F3"/>
+  <polygon points="44.5,32.1 61,30.5 61,37 44.5,33.6" fill="#A9C3E0"/>
+  <polygon points="44.5,33.6 61,37 61,43.5 44.5,35.1" fill="#7399C6"/>
+  <polygon points="44.5,35.1 61,43.5 61,50 44.5,36.6" fill="#4C77AE"/>
+  <!-- the prism -->
+  <polygon points="32,10 53,48 11,48" fill="#FFFFFF" fill-opacity="0.08" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="round"/>
+</svg>

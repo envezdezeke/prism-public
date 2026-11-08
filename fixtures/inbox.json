@@ -1,0 +1,79 @@
+[
+  {
+    "id": "inbox-001",
+    "deal": "Lone Star Dental",
+    "type": "credit_decision",
+    "to": "credit.nakamura",
+    "at": "2026-11-03T14:15-06:00",
+    "message": "Please review and decide the equipment loan for Lone Star Dental PLLC.",
+    "options": [
+      "approve",
+      "decline",
+      "request_info"
+    ],
+    "status": "pending",
+    "answer": null,
+    "answered_at": null
+  },
+  {
+    "id": "inbox-002",
+    "deal": "Mama Rosa's Kitchen",
+    "type": "committee_approval",
+    "to": "committee.osei",
+    "at": "2026-11-02T12:15-06:00",
+    "message": "Amount is above the delegated limit; full committee approval needed.",
+    "options": [
+      "approve",
+      "decline"
+    ],
+    "status": "pending",
+    "answer": null,
+    "answered_at": null
+  },
+  {
+    "id": "inbox-003",
+    "deal": "Bayou Bistro & Grill",
+    "type": "fraud_hold",
+    "to": "fraudops.keller",
+    "at": "2026-11-03T11:35-06:00",
+    "message": "Held at intake: rare entities shared with Juniper Creek Nursery and a prior deal. Confirm or release.",
+    "options": [
+      "confirm_hold",
+      "release_hold"
+    ],
+    "status": "pending",
+    "answer": null,
+    "answered_at": null
+  },
+  {
+    "id": "inbox-004",
+    "deal": "Juniper Creek Nursery",
+    "type": "fraud_hold",
+    "to": "fraudops.keller",
+    "at": "2026-11-03T15:05-06:00",
+    "message": "Held at intake: rare entities shared with Bayou Bistro & Grill and a prior deal. Confirm or release.",
+    "options": [
+      "confirm_hold",
+      "release_hold"
+    ],
+    "status": "pending",
+    "answer": null,
+    "answered_at": null
+  },
+  {
+    "id": "inbox-005",
+    "deal": "Mama Rosa's Kitchen",
+    "type": "credit_decision",
+    "to": "credit.nakamura",
+    "at": "2026-11-02T10:15-06:00",
+    "message": "Please review and decide the term loan for Mama Rosa's Kitchen Inc.",
+    "options": [
+      "approve",
+      "decline",
+      "request_info"
+    ],
+    "status": "answered",
+    "answer": "approve",
+    "answered_at": "2026-11-02T11:50-06:00"
+  }
+]
